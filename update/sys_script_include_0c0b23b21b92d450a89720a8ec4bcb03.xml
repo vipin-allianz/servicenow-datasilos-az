@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_datasilosaz.RecordAddSuperSilos</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>RecordAddSuperSilos</name>
+        <script><![CDATA[function RecordAddSuperSilos(record,aAddedDataSilos,aSuperSilos)
+{
+	var Debug = x_snc_devtools.Debug;
+	var GetArrayValue = x_snc_devtools.GetArrayValue;
+	var ArrayValueExists = x_snc_devtools.ArrayValueExists;
+
+	
+	
+	aSuperSilos = GetArrayValue(aSuperSilos);
+	aAddedDataSilos = GetArrayValue(aAddedDataSilos);
+	for (var nIndexSuperSilo = 0; nIndexSuperSilo < aSuperSilos.length; nIndexSuperSilo++)
+	{
+		var oSuperSilo = aSuperSilos[nIndexSuperSilo];
+		var strDataSiloName = oSuperSilo['datasilo'];
+		var strDataSiloSysId = x_snc_datasilos.GetSiloByName(strDataSiloName);
+		
+		Debug('DataSiloAZ: RecordAddSuperSilos: Checkling datasilo '+strDataSiloName+' ('+strDataSiloSysId+') for supersilos');
+	
+		if (ArrayValueExists(aAddedDataSilos,strDataSiloSysId))
+		{
+			Debug('DataSiloAZ: RecordAddSuperSilos: datasilo '+strDataSiloSysId+' was just added!');
+			var strSuperSiloName = oSuperSilo['supersilo'];
+			var strSuperSiloSysId = x_snc_datasilos.GetSiloByName(strSuperSiloName);
+			Debug('DataSilosAZ: RecordAddSuperSilos: Adding supersilo '+strSuperSiloName+' ('+strSuperSiloSysId+')');
+			x_snc_datasilos.RecordAddSiloToSupervisorWhitelist(record,strSuperSiloSysId);	
+		}
+	}
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-08-02 09:41:43</sys_created_on>
+        <sys_id>0c0b23b21b92d450a89720a8ec4bcb03</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>RecordAddSuperSilos</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_include_0c0b23b21b92d450a89720a8ec4bcb03</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-08-02 16:36:58</sys_updated_on>
+    </sys_script_include>
+</record_update>
