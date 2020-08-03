@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_datasilosaz.Maintenance</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>Maintenance</name>
+        <script><![CDATA[function Maintenance(grFilter)
+{
+    var Debug = x_snc_devtools.Debug;
+	var GetStringValue = x_snc_devtools.GetStringValue;
+	var RenderValue = x_snc_devtools.RenderValue;
+	var GetIntegerValue = x_snc_devtools.GetIntegerValue;
+
+	
+	function Log(strText)
+	{
+		//Debug('DataSilosAZ: Maintenance: '+strText);
+		x_snc_devtools.Log('DataSilosAZ: Maintenance: '+strText);
+	}
+
+	Log('START');
+	var nTotalChanges = 0;
+	var nTotalRows = 0;
+	var aGlideRecordFilters = [];
+	
+	var aSuperSilos = GetSuperSiloDefinitions();
+	
+	if (grFilter !== undefined)
+	{
+		if (IsClassNameSupported(grFilter.getRecordClassName()) == false)
+		{
+			Log('ERROR: provided grFilter refers to an unsupported class.');
+		}
+		aGlideRecordFilters.push(grFilter);
+	}
+	else
+	{
+		var aClassNames = GetAllSupportedClassNames();
+		Debug(RenderValue(aClassNames));
+		for (var nIndex = 0; nIndex < aClassNames.length; nIndex++)
+		{
+			var grToAdd = new GlideRecord(aClassNames[nIndex]);
+			aGlideRecordFilters.push(grToAdd);
+		}
+	}
+
+	
+	var nLogFrequency = GetIntegerValue(gs.getProperty('x_snc_datasilos.maintenance.log_frequency'));
+	
+	var aResults = [];
+	
+	for (var nIndex = 0; nIndex < aGlideRecordFilters.length; nIndex++)
+	{
+		var result = {};
+		var grCurrent = aGlideRecordFilters[nIndex];
+		var strCurrentClassName = grCurrent.getRecordClassName();
+		//Debug('Working on '+grCurrent.getRecordClassName());
+		
+		//Debug('Query: '+grCurrent.getEncodedQuery());
+		
+		grCurrent.query();
+		//Debug('Records found: '+grCurrent.getRowCount());
+
+		var nCurrentRows = grCurrent.getRowCount();
+		var nCurrentRow = 0;
+		var nCurrentChanges = 0;
+		
+		while (grCurrent.next())
+		{
+			var strOldGroupWhitelist = grCurrent.getValue('x_snc_datasilos_group_whitelist');
+			var strOldSupervisorWhitelist = grCurrent.getValue('x_snc_datasilos_supervisor_whitelist');
+
+			//Debug('Before RecordUpdate: '+RenderValue(grCurrent));
+			var grPrevious = grCurrent;
+			RecordUpdate(grCurrent);
+			
+			var aAddedDataSilos = []; 
+			RecordAddSuperSilos(grCurrent,aAddedDataSilos,aSuperSilos);
+
+			
+			//Debug('After RecordUpdate: '+RenderValue(grCurrent));
+			if (strOldGroupWhitelist != grCurrent.getValue('x_snc_datasilos_group_whitelist')
+			   ||  strOldSupervisorWhitelist != grCurrent.getValue('x_snc_datasilos_supervisor_whitelist'))
+			{
+				grCurrent.update();
+				nCurrentChanges++;
+			}
+			
+			if (nCurrentRow > 0 && nLogFrequency > 0)
+			{
+				if (nCurrentRow % nLogFrequency == 0)
+				{
+					var strLog = 'Processing row '+nCurrentRow+' of '+nCurrentRows+' in '+strCurrentClassName+' and made '+nCurrentChanges+' changes so far.';
+					Log(strLog);
+				}
+			}
+			nCurrentRow++;
+		}
+		result.rows = nCurrentRows;
+		nTotalRows += result.rows;
+		result.changes = nCurrentChanges;
+		nTotalChanges += nCurrentChanges;
+		result.classname = strCurrentClassName;
+		aResults.push(result);
+	}
+
+	var strLog = 'END\n';
+	for (var nIndex = 0; nIndex < aResults.length; nIndex++)
+	{
+		result = aResults[nIndex];
+		strLog += 'Changed '+result.changes+' out of '+result.rows+' records in '+result.classname+'.\n';
+	}
+	strLog += 'Changed '+nTotalChanges+' out of '+nTotalRows+' records in total.';
+	Log(strLog);
+	
+    return nTotalChanges;
+
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-08-03 09:57:12</sys_created_on>
+        <sys_id>bff73c1bdb125850ba15a35305961997</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Maintenance</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_include_bff73c1bdb125850ba15a35305961997</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-08-03 10:09:05</sys_updated_on>
+    </sys_script_include>
+</record_update>
