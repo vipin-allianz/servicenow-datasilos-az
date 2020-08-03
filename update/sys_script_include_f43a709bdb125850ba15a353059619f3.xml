@@ -9,15 +9,120 @@
         <name>GetSuperSiloDefinitions</name>
         <script><![CDATA[function GetSuperSiloDefinitions()
 {
+	
+	// AZ Silo Setup: Refenrence Version: 10
+	
+	// TODO: Relationship between AZL and AZ TEC GLOBAL?
+	
+	
 	var aSuperSilos =
 		[
+			// TEST
 			{
 				'supersilo': '_TEST_DATASILOS_SILO_ALPHA',
-				'datasilo': '_TEST_DATASILOS_SILO_BETA'
+				'datasilo' : '_TEST_DATASILOS_SILO_BETA'
 			},
 			{
 				'supersilo': '_TEST_DATASILOS_SILO_BETA',
 				'datasilo' : '_TEST_DATASILOS_SILO_GAMMA'
+			},
+			
+			// AZ TECHNOLOGY GLOBAL
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.TEC.AT'
+			},
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.AT.AT'
+			},
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.GLOB'
+			},
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.TEC.US'
+			},
+			
+			// AZ TECHNOLOGY AUSTRIA
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.TEC.GLOB'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.GLOB'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT.1'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT.2'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT.3'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT.4'
+			},
+			{
+				'supersilo': 'A.TEC.AT',
+				'datasilo' : 'A.AT.AT.5'
+			},
+			
+			// AZ AUSTRIA
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.GLOB'
+			},
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.AT.AT.1'
+			},
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.AT.AT.2'
+			},
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.AT.AT.3'
+			},
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.AT.AT.4'
+			},
+			{
+				'supersilo': 'A.AT.AT',
+				'datasilo' : 'A.AT.AT.5'
+			},
+			
+			// AZ TECHNOLOGY OF AMERICA
+			{
+				'supersilo': 'A.TEC.US',
+				'datasilo' : 'A.TEC.GLOB'
+			},
+			{
+				'supersilo': 'A.TEC.US',
+				'datasilo' : 'A.USL.US'
+			},
+			{
+				'supersilo': 'A.TEC.US',
+				'datasilo' : 'A.GLOB'
+			},
+			
+			// AZ LIFE (AMERICA)
+			{
+				'supersilo': 'A.USL.US',
+				'datasilo' : 'A.TEC.US'
 			}
 		];	
 	return aSuperSilos;
@@ -26,13 +131,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2020-08-03 10:06:10</sys_created_on>
         <sys_id>f43a709bdb125850ba15a353059619f3</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>GetSuperSiloDefinitions</sys_name>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_script_include_f43a709bdb125850ba15a353059619f3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-08-03 10:06:10</sys_updated_on>
+        <sys_updated_on>2020-08-03 14:14:34</sys_updated_on>
     </sys_script_include>
 </record_update>
