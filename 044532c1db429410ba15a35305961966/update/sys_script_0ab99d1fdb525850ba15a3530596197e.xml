@@ -6,7 +6,7 @@
         <action_insert>true</action_insert>
         <action_query>false</action_query>
         <action_update>false</action_update>
-        <active>true</active>
+        <active>false</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
         <change_fields>false</change_fields>
@@ -18,7 +18,7 @@
         <filter_condition/>
         <is_rest>false</is_rest>
         <message/>
-        <name>AZ DataSilos - ATF - sys_user</name>
+        <name>AZ DataSilos - sys_user - ATF</name>
         <order>100</order>
         <priority>100</priority>
         <rest_method/>
@@ -29,78 +29,26 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
+	// Add your code here
 	
-	function UserAddRole(strUserSysId, strRole)
-	{
-		if (x_snc_devtools.IsValidSysId(strUserSysId) == false)
-		{
-			return false;
-		}
-		/*
-		// Check if the user exists
-		var grUser = x_snc_devtools.GetRecord('sys_user',strUserSysId);
-		if (grUser == false)
-		{
-			return false;
-		}
-		*/
-
-		// Check if the role exists
-		var grRole = new GlideRecord('sys_user_role');
-		grRole.addQuery('name','=',strRole);
-		grRole.query();
-		if (grRole.getRowCount() != 1)
-		{
-			return false;
-		}
-		if (grRole.next() == false)
-		{
-			return false;
-		}
-
-		// Check if the user already has that role
-		var strRoleSysId = x_snc_devtools.GetStringValue(grRole.sys_id);
-		var grUserHasRole = new GlideRecord('sys_user_has_role');
-		grUserHasRole.addQuery('role','=',strRoleSysId);
-		grUserHasRole.addQuery('user','=',strUserSysId);
-		grUserHasRole.query();
-		if (grUserHasRole.getRowCount() >= 1)
-		{
-			return true;
-		}
-
-		// Add the role
-		grUserHasRole.initialize();
-		grUserHasRole.user = strUserSysId;
-		grUserHasRole.role = strRoleSysId;
-		if (x_snc_devtools.IsValidSysId(grUserHasRole.insert()) == false)
-		{
-			return false;
-		}
-		return true;
-	}	
-
-	
-	
-	
-	if (gs.getProperty('x_snc_datasilosaz.atf') == 'false')
-	{
-		return;
-	}
-	
-	
-	if (current.user_name == '_ATF_DATASILOS_SPECTATOR' ||
-		current.user_name == '_ATF_DATASILOS_CALLER' ||
+	if (current.user_name == '_ATF_DATASILOS_CALLER' ||
 		current.user_name == '_ATF_DATASILOS_OPENER')
 	{
-		UserAddRole(current.sys_id,'az_incident_requester');
+		insertRole('32d16bc92def42002f1015e99a8fd1fb'); // az_incident_requester
 	}
-	else if (current.user_name.indexOf('_ATF_DATASILOS') == 0)
+	else if (current.user_name.indexOf('_ATF_DATASILOS_') == 0)
 	{
-		Debug('sys_user: business rule: UserAddRole returns: '+UserAddRole(current.sys_id,'az_incident_support_group'));
+		insertRole('7c43afc92def42002f1015e99a8fd1e6'); // az_incident_support_group
 	}
 
-
+	function insertRole(roleID)
+	{
+		var roleRec = new GlideRecord('sys_user_has_role');
+		roleRec.initialize();
+		roleRec.user = current.sys_id;
+		roleRec.role = roleID; 
+		roleRec.insert();
+	} 
 	
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -110,16 +58,16 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>0ab99d1fdb525850ba15a3530596197e</sys_id>
-        <sys_mod_count>18</sys_mod_count>
-        <sys_name>AZ DataSilos - ATF - sys_user</sys_name>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>AZ DataSilos - sys_user - ATF</sys_name>
         <sys_overrides/>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_script_0ab99d1fdb525850ba15a3530596197e</sys_update_name>
-        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
-        <sys_updated_on>2021-06-22 13:20:55</sys_updated_on>
+        <sys_updated_by>admin_GE53559</sys_updated_by>
+        <sys_updated_on>2020-09-14 14:24:14</sys_updated_on>
         <template/>
         <when>before</when>
         <x_snc_datasilos_created>false</x_snc_datasilos_created>

@@ -23,14 +23,14 @@
 		var strDataSiloName = oSuperSilo['datasilo'];
 		var strDataSiloSysId = x_snc_datasilos.GetSiloByName(strDataSiloName);
 		
-		//Debug('DataSiloAZ: RecordAddSuperSilos: Checking datasilo '+strDataSiloName+' ('+strDataSiloSysId+') for supersilos');
+		Debug('DataSiloAZ: RecordAddSuperSilos: Checkling datasilo '+strDataSiloName+' ('+strDataSiloSysId+') for supersilos');
 	
 		if (ArrayValueExists(aAddedDataSilos,strDataSiloSysId))
 		{
-			//Debug('DataSiloAZ: RecordAddSuperSilos: datasilo '+strDataSiloSysId+' was just added!');
+			Debug('DataSiloAZ: RecordAddSuperSilos: datasilo '+strDataSiloSysId+' was just added!');
 			var strSuperSiloName = oSuperSilo['supersilo'];
 			var strSuperSiloSysId = x_snc_datasilos.GetSiloByName(strSuperSiloName);
-			//Debug('DataSilosAZ: RecordAddSuperSilos: Adding supersilo '+strSuperSiloName+' ('+strSuperSiloSysId+')');
+			Debug('DataSilosAZ: RecordAddSuperSilos: Adding supersilo '+strSuperSiloName+' ('+strSuperSiloSysId+')');
 			x_snc_datasilos.RecordAddSiloToSupervisorWhitelist(record,strSuperSiloSysId);	
 		}
 	}
@@ -40,7 +40,7 @@
         <sys_created_on>2020-08-02 09:41:43</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>0c0b23b21b92d450a89720a8ec4bcb03</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>RecordAddSuperSilos</sys_name>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy>read</sys_policy>
@@ -48,6 +48,6 @@
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_script_include_0c0b23b21b92d450a89720a8ec4bcb03</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-08-24 10:25:06</sys_updated_on>
+        <sys_updated_on>2020-08-02 16:36:58</sys_updated_on>
     </sys_script_include>
 </record_update>

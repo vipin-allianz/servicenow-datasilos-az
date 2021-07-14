@@ -9,7 +9,7 @@
         <name>GetSuperSiloDefinitions</name>
         <script><![CDATA[function GetSuperSiloDefinitions()
 {
-	// AZ Silo Setup Version 13
+	// AZ Silo Setup Version 12 
 	
 	var aSuperSilos =
 		[
@@ -23,13 +23,15 @@
 				'datasilo' : '_TEST_DATASILOS_SILO_GAMMA'
 			},
 			
-			// ATF
-			{
-				'supersilo': '_ATF_DATASILOSAZ_SUPERSILO',
-				'datasilo' : '_ATF_DATASILOSAZ_REGULAR'
-			},
-			
 			// AZ TECHNOLOGY GLOBAL
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.TEC.AT'
+			},
+			{
+				'supersilo': 'A.TEC.GLOB',
+				'datasilo' : 'A.AT.AT'
+			},
 			{
 				'supersilo': 'A.TEC.GLOB',
 				'datasilo' : 'A.GLOB'
@@ -38,26 +40,6 @@
 				'supersilo': 'A.TEC.GLOB',
 				'datasilo' : 'A.TEC.US'
 			},
-			{
-				'supersilo': 'A.TEC.GLOB',
-				'datasilo' : 'A.TEC.AT'
-			},
-			{
-				'supersilo': 'A.TEC.GLOB',
-				'datasilo' : 'A.AT.AT'
-			},			
-			{
-				'supersilo': 'A.TEC.GLOB',
-				'datasilo' : 'A.PL.PL'
-			},
-			{
-				'supersilo': 'A.TEC.GLOB',
-				'datasilo' : 'A.BG.BG'
-			},			
-			{
-				'supersilo': 'A.TEC.GLOB',
-				'datasilo' : 'A.SK.SK'
-			},			
 			
 			// AZ GLOBAL
 			{
@@ -126,28 +108,6 @@
 				'datasilo' : 'A.AT.AT.5'
 			},
 			
-			// AZ POLAND
-			{
-				'supersilo': 'A.PL.PL',
-				'datasilo' : 'A.TEC.GLOB'
-			},
-			
-			// AZ BULGARIA
-			{
-				'supersilo': 'A.BG.BG',
-				'datasilo' : 'A.TEC.GLOB'
-			},
-			
-			// AZ SLOVAKIA
-			{
-				'supersilo': 'A.SK.SK',
-				'datasilo' : 'A.TEC.GLOB'
-			},			
-			{
-				'supersilo': 'A.SK.SK',
-				'datasilo' : 'A.GLOB'
-			},			
-			
 			// AZ TECHNOLOGY OF AMERICA
 			{
 				'supersilo': 'A.TEC.US',
@@ -175,14 +135,14 @@
         <sys_created_on>2020-08-03 10:06:10</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>f43a709bdb125850ba15a353059619f3</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>GetSuperSiloDefinitions</sys_name>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy>read</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_script_include_f43a709bdb125850ba15a353059619f3</sys_update_name>
-        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
-        <sys_updated_on>2021-06-29 11:10:49</sys_updated_on>
+        <sys_updated_by>admin_saschaw</sys_updated_by>
+        <sys_updated_on>2020-09-16 11:21:48</sys_updated_on>
     </sys_script_include>
 </record_update>

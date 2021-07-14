@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><database>
-    <element label="Data Silos" max_length="40" name="x_snc_datasilos_datasilos" sizeclass="7" type="collection">
-        <element label="Restricted" max_length="40" name="x_snc_datasilosaz_restricted" type="boolean"/>
-    </element>
-</database>

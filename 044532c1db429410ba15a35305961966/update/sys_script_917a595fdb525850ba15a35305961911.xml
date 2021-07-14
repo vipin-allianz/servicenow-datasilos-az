@@ -6,7 +6,7 @@
         <action_insert>true</action_insert>
         <action_query>false</action_query>
         <action_update>true</action_update>
-        <active>true</active>
+        <active>false</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
         <change_fields>false</change_fields>
@@ -18,7 +18,7 @@
         <filter_condition/>
         <is_rest>false</is_rest>
         <message/>
-        <name>AZ DataSilos - incident - SuperSilos</name>
+        <name>AZ DataSilos - incident - Logging</name>
         <order>9999</order>
         <priority>100</priority>
         <rest_method/>
@@ -29,29 +29,29 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
-	x_snc_datasilosaz.ExecuteBusinessRuleSuperSilos(current,previous);
+	x_snc_devtools.Log('DataSilosAZ: This is a test to show if business rules are executed for the incident table. Incident number: '+current.number);
 
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2020-08-02 17:54:53</sys_created_on>
+        <sys_created_on>2020-08-03 12:27:42</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>dfcb9dc71b96d450a89720a8ec4bcb8d</sys_id>
-        <sys_mod_count>2</sys_mod_count>
-        <sys_name>AZ DataSilos - incident - SuperSilos</sys_name>
+        <sys_id>917a595fdb525850ba15a35305961911</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>AZ DataSilos - incident - Logging</sys_name>
         <sys_overrides/>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
-        <sys_update_name>sys_script_dfcb9dc71b96d450a89720a8ec4bcb8d</sys_update_name>
+        <sys_update_name>sys_script_917a595fdb525850ba15a35305961911</sys_update_name>
         <sys_updated_by>admin_GE53559</sys_updated_by>
-        <sys_updated_on>2020-08-09 10:06:40</sys_updated_on>
+        <sys_updated_on>2020-08-04 15:54:07</sys_updated_on>
         <template/>
         <when>before</when>
         <x_snc_datasilos_created>false</x_snc_datasilos_created>
     </sys_script>
-    <sys_translated_text action="delete_multiple" query="documentkey=dfcb9dc71b96d450a89720a8ec4bcb8d"/>
+    <sys_translated_text action="delete_multiple" query="documentkey=917a595fdb525850ba15a35305961911"/>
 </record_update>
