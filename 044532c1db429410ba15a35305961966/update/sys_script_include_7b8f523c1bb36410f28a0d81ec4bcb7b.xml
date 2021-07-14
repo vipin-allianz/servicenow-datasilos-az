@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_datasilosaz.AppInstall</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>AppInstall</name>
+        <script><![CDATA[function AppInstall()
+{
+	function Log(strText)
+	{
+		x_snc_datasilosaz.Log('AppInstall: '+strText);
+	}
+	
+	var strUserSysId = 'c86f5bf828301c54e485513f01728181'; // TU_SYSTEM_JOBS
+	
+	// Not for the time being...
+	//x_snc_devtools.AppInstall();
+	
+	// Not for the time being...
+	//x_snc_datasilos.AppInstall();
+	
+	AppSetDefaults();
+		
+	// Delete DevTools Test Data
+	var testdata = new x_snc_devtools.TestDataAPI('_ATF_DEVTOOLS_');
+	testdata.DeleteAllData(testdata.GetAllData());
+
+	// Delete DataSilos Test Data
+	var testdata = new x_snc_datasilos.DataSilosTestDataAPI('_ATF_DATASILOS_');
+	testdata.DeleteAllData(testdata.GetAllData());
+	
+	// Execute AppSanity to make sure there are no more properties where is_private is set to true
+	x_snc_devtools.AppSanity('dafbffebdbb78450ba15a353059619eb'); // scope is DataSilos
+	
+	
+	// Deactivate the Restricted Groups Business Rule
+	x_snc_devtools.RecordSetValue('sys_script','04654855149c5810547cd65bfba75010','active','false');
+	
+	// Deactivate the business rule "DataSilos - Incident Task" in global scope
+	x_snc_devtools.RecordSetValue('sys_auto_script','eac9d2711b4a9c108ce9dca39b4bcbdf','active','false');
+	
+	// Deactivate the scheduled job "AZ DataSilos - Maintenance - Active Incidents" in global scope
+	x_snc_devtools.RecordSetValue('sys_auto_script','b67cf8861ba8a8104006206e3b4bcb97','active','false');
+
+	// Deactivate the scheduled job "AZ DataSilos - Red Arrow" in global scope
+	x_snc_devtools.RecordSetValue('sys_auto_script','e58a73e91ba020d0e3ecb841dd4bcb67','active','false');
+
+	// Deactivate the scheduled job "AZ DataSilos - Maintenance - Invisible incidents" in global scope
+	x_snc_devtools.RecordSetValue('sys_auto_script','f5bcb00a1ba8a8104006206e3b4bcb53','active','false');
+
+	// Deactivate the scheduled job "AZ DataSilos - Maintenance - incident_task" in global scope
+	x_snc_devtools.RecordSetValue('sys_auto_script','fa0786441bc83454a11210669b4bcbce','active','false');
+
+	// Deactivate business rule "DataSilos - Incident" in global scope
+	x_snc_devtools.RecordSetValue('sys_script','a3391e311b4a9c108ce9dca39b4bcbe6','active','false');
+
+	// Deactivate business rule "DataSilos - Incident Task" in global scope
+	x_snc_devtools.RecordSetValue('sys_script','eac9d2711b4a9c108ce9dca39b4bcbdf','active','false');
+
+	// Deactivate business rule "AZ DataSilos - ACL Warning Message" in global scope
+	x_snc_devtools.RecordSetValue('sys_script','a3c3638fdb035810394a0226f496196e','active','false');
+
+	
+	// Preparing the ACLs for incident_task eplicitly
+	x_snc_devtools.RecordSetValue('sys_security_acl','4474b678a9951200e485dd29e3598dd5','advanced','true');
+	x_snc_devtools.RecordSetValue('sys_security_acl','4474b678a9951200e485dd29e3598dd5','script','answer = x_snc_datasilos.ExecuteACL(current);');
+
+	x_snc_devtools.RecordSetValue('sys_security_acl','8c93549a0b602200ff6707a7b6673a53','advanced','true');
+	x_snc_devtools.RecordSetValue('sys_security_acl','8c93549a0b602200ff6707a7b6673a53','script','answer = x_snc_datasilos.ExecuteACL(current);');	
+	
+	x_snc_devtools.RecordSetValue('sys_security_acl','19f7a6311bce9c108ce9dca39b4bcbca','advanced','true');
+	x_snc_devtools.RecordSetValue('sys_security_acl','19f7a6311bce9c108ce9dca39b4bcbca','script','answer = x_snc_datasilos.ExecuteACL(current);');	
+	
+	// Set up the HR silo
+	RestrictedSiloSetup();
+	
+	
+	x_snc_devtools.AppSetProperty('debug.log','false');
+	x_snc_devtools.AppSetProperty('ui.list_button','false');
+	
+	x_snc_datasilos.AppSetProperty('active','true');
+	x_snc_datasilos.AppSetProperty('group_filter',
+		'typeLIKE2db3fd97371c02008dd070f543990e59^ORu_non_assignable=false');
+
+	x_snc_datasilos.AppSetProperty('maintenance.active','false');
+	
+	x_snc_datasilos.AppSetProperty('acl_warning.active','true');
+	x_snc_datasilos.AppSetProperty('acl_warning.text',"WARNING: Make sure that this ACL is set to advanced and contains the DataSilos logic in the script block. Please consult with the Incident BA/Architect before proceeding with this change. It's recommended to ALWAYS run ATFs after making changes!");
+
+	x_snc_datasilos.AppSetProperty('security_clearance.active','false');
+	
+	x_snc_datasilos.AppSetProperty('database_views.active','true');
+	
+	x_snc_datasilos.AppSetProperty('tables.incident.active','true');
+	x_snc_datasilos.AppSetProperty('tables.incident.columns.instant_access.sys_user',
+		'opened_by,caller_id,u_contact');
+	x_snc_datasilos.AppSetProperty('tables.incident.columns.whitelist_trigger.sys_user_group',
+		'assignment_group,u_creator_group,u_active_coordination_group');
+	x_snc_datasilos.AppSetProperty('tables.incident.avoid_expensive_queries','true');
+		
+	x_snc_datasilos.AppSetProperty('tables.incident_task.active','true');
+	x_snc_datasilos.AppSetProperty('tables.incident_task.avoid_expensive_queries','true');
+
+	x_snc_datasilos.AppSetProperty('tables.problem.active','false');
+	x_snc_datasilos.AppSetProperty('tables.problem_task.active','false');
+	x_snc_datasilos.AppSetProperty('tables.change_request.active','false');
+	x_snc_datasilos.AppSetProperty('tables.change_task.active','false');
+	x_snc_datasilos.AppSetProperty('tables.sc_request.active','false');
+	x_snc_datasilos.AppSetProperty('tables.sc_req_item.active','false');
+	x_snc_datasilos.AppSetProperty('tables.sc_task.active','false');
+
+	function AppInstallScheduledJob(strScopeSysId,strName,strScript,strUserSysId)
+	{
+		var grJob = new GlideRecord('sysauto_script');
+		grJob.addQuery('sys_scope','=',strScopeSysId);
+		grJob.addQuery('name','=',strName);
+		x_snc_devtools.GlideRecordQuery(grJob);
+		if (grJob.next())
+		{
+			Log('Job already exists: '+grJob.sys_id);
+			return x_snc_devtools.GetStringValue(grJob.sys_id);
+			grJob.run_as = strUserSysId;
+			x_snc_devtools.GlideRecordUpdate(grJob);
+		}
+
+		var grJob = new GlideRecord('sysauto_script');
+		grJob.initialize();
+		grJob.sys_scope = strScopeSysId;
+		grJob.name = strName;
+		grJob.conditional = false;
+		grJob.run_dayofmonth = '1';
+		grJob.run_dayofweek = '1';
+		//grJob.run_period = '1970-01-01 00:10:00';
+		
+		var timems = grJob.run_period.dateNumericValue();
+		var addMilliSeconds = 600000;//(add your time in millisonds here, ive set the value as 600000 for 10 minutes)
+		timems = timems + addMilliSeconds; //You can do any arithmentic like add substract etc here
+		grJob.run_period.setDateNumericValue(timems);	
+		//grJob.run_period = '600';
+		//grJob.run_start = '2021-01-01 00:00:00';
+		//grJob.run_time = '1969-12-31 23:00:00';	
+		grJob.run_as = strUserSysId;
+		grJob.run_type = 'periodically';
+		grJob.script = strScript;
+		var strJobSysId = x_snc_devtools.GlideRecordInsert(grJob);
+		Log('Job created: '+strJobSysId);
+		return strJobSysId;
+	}
+	
+	
+	var strScript =
+		"var grRecords = new GlideRecord('incident');\n"
+		+"grRecords.setWorkflow(false);\n"
+		+"grRecords.autoSysFields(false);\n"
+		+"grRecords.setUseEngines(false);\n"
+		+"x_snc_datasilosaz.Maintenance(grRecords);\n";
+
+	AppInstallScheduledJob(
+		'global','AZ DataSilos - Maintenance - incident',
+		strScript,
+		strUserSysId);
+
+	// Create test Data
+	var grJobs = new GlideRecord('sysauto_script');
+	grJobs.addQuery('sys_scope','=','dafbffebdbb78450ba15a353059619eb'); // From scope DataSilos"
+	grJobs.addQuery('sys_id','=','602fd746db299410ba15a35305961910');
+	x_snc_devtools.GlideRecordQuery(grJobs);
+	while (grJobs.next())
+	{
+		grJobs.run_as = strUserSysId;
+		x_snc_devtools.GlideRecordUpdate(grJobs);
+	}	
+	
+	var grJobs = new GlideRecord('sysauto_script');
+	grJobs.addQuery('sys_scope','=','dafbffebdbb78450ba15a353059619eb'); // From scope DataSilos"
+	grJobs.addQuery('name','STARTSWITH','DataSilos - Maintenance - ');
+	x_snc_devtools.GlideRecordQuery(grJobs);
+	while (grJobs.next())
+	{
+		grJobs.active = false;
+		grJobs.run_as = strUserSysId;
+		x_snc_devtools.GlideRecordUpdate(grJobs);
+	}
+	
+	// Create test Data
+	var grJobs = new GlideRecord('sysauto_script');
+	grJobs.addQuery('sys_scope','=','dafbffebdbb78450ba15a353059619eb'); // From scope DataSilos"
+	grJobs.addQuery('sys_id','=','602fd746db299410ba15a35305961910');
+	x_snc_devtools.GlideRecordQuery(grJobs);
+	while (grJobs.next())
+	{
+		grJobs.run_as = strUserSysId;
+		x_snc_devtools.GlideRecordUpdate(grJobs);
+	}	
+	
+	// Database view protection
+	var grJobs = new GlideRecord('sysauto_script');
+	grJobs.addQuery('sys_scope','=','dafbffebdbb78450ba15a353059619eb'); // From scope DataSilos
+	grJobs.addQuery('sys_id','=','2d0f7525dbb43058bc44d844ca961934');
+	x_snc_devtools.GlideRecordQuery(grJobs);
+	while (grJobs.next())
+	{
+		grJobs.run_as = strUserSysId;
+		x_snc_devtools.GlideRecordUpdate(grJobs);
+	}	
+	
+	// DevTools installer
+	var grJobs = new GlideRecord('sysauto_script');
+	grJobs.addQuery('sys_scope','=','d689f6901bd38450a89720a8ec4bcbfd'); // From scope DevTools
+	grJobs.addQuery('sys_id','=','a87e6f991b719050a89720a8ec4bcbaa');
+	x_snc_devtools.GlideRecordQuery(grJobs);
+	while (grJobs.next())
+	{
+		grJobs.run_as = strUserSysId;
+		x_snc_devtools.GlideRecordUpdate(grJobs);
+	}	
+	
+	
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-26 08:49:34</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>7b8f523c1bb36410f28a0d81ec4bcb7b</sys_id>
+        <sys_mod_count>54</sys_mod_count>
+        <sys_name>AppInstall</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_include_7b8f523c1bb36410f28a0d81ec4bcb7b</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-07-07 12:51:10</sys_updated_on>
+    </sys_script_include>
+</record_update>

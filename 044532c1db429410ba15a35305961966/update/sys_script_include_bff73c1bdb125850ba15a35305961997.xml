@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_datasilosaz.Maintenance</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>The function is the main entry point for all maintenance related scheduled jobs. </description>
+        <name>Maintenance</name>
+        <script><![CDATA[function Maintenance(grRecords, strTopic)
+{
+	var RecordBulkProcessor = x_snc_devtools.RecordBulkProcessor;
+	var GetStringValue = x_snc_devtools.GetStringValue;
+
+	var RecordGetVisibilityHash = x_snc_datasilos.RecordGetVisibilityHash;
+	var RecordGetGhostValue = x_snc_datasilos.RecordGetGhostValue;
+	var GetConfigValue = x_snc_datasilos.GetConfigValue;
+	var GetScopeFromTable = x_snc_datasilos.GetScopeFromTable;
+	
+	/*
+	if (GetConfigValue('maintenance','active') != true)
+	{
+		return 0;
+	}
+	*/
+	
+	var strTable = grRecords.getRecordClassName();
+	strTopic = GetStringValue(strTopic);
+	var strTopicLog = '';
+	if (strTopic != '')
+	{
+		strTopicLog = strTopic+': ';
+	}
+	
+	function CallbackRecordProcessor(record)
+	{
+		return x_snc_datasilosaz.RecordMaintenance(record);
+	}
+	function CallbackLog(strText)
+	{
+		x_snc_datasilos.Log('AZ: Maintenance: '+strTopicLog+'['+strTable+']: '+strText);
+	}
+
+	var nLogFrequency = GetConfigValue('maintenance','log_frequency');
+
+	return RecordBulkProcessor(
+		grRecords,
+		CallbackRecordProcessor, // callback function to work on a single record
+		GetScopeFromTable(strTable)+'_last_maintenance', // the name of the field that stores that date/time of the last processing
+		100000, // process up to 100K records
+		60*9, // run for 9 minutes
+		CallbackLog,
+		nLogFrequency
+		);
+}
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-08-03 09:57:12</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>bff73c1bdb125850ba15a35305961997</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>Maintenance</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_include_bff73c1bdb125850ba15a35305961997</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-05-06 08:34:17</sys_updated_on>
+    </sys_script_include>
+</record_update>

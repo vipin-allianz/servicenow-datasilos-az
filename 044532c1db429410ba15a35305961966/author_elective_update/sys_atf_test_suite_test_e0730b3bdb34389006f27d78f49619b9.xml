@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_atf_test_suite_test">
+    <sys_atf_test_suite_test action="DELETE">
+        <abort_on_failure>false</abort_on_failure>
+        <order/>
+        <sys_class_name>sys_atf_test_suite_test</sys_class_name>
+        <sys_created_by>admin_R3EXUVB</sys_created_by>
+        <sys_created_on>2021-06-24 12:10:08</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>e0730b3bdb34389006f27d78f49619b9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>75b0756cdb251010ba15a35305961947</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_atf_test_suite_test_e0730b3bdb34389006f27d78f49619b9</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-06-24 12:10:08</sys_updated_on>
+        <test display_value="DataSilos - change_request - opener, requester and sentinel">75b0756cdb251010ba15a35305961947</test>
+        <test_suite display_value="AZ DataSilos">644387f7db34389006f27d78f4961984</test_suite>
+    </sys_atf_test_suite_test>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="DataSilosAZ">044532c1db429410ba15a35305961966</application>
+        <file_path/>
+        <instance_id>d8764134dbe59494431011f84896190b</instance_id>
+        <instance_name>AZTech POC</instance_name>
+        <name>sys_atf_test_suite_test_e0730b3bdb34389006f27d78f49619b9</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_atf_test_suite_test"><sys_atf_test_suite_test action="INSERT_OR_UPDATE"><abort_on_failure>false</abort_on_failure><order/><sys_class_name>sys_atf_test_suite_test</sys_class_name><sys_created_by>admin_R3EXUVB</sys_created_by><sys_created_on>2021-06-24 12:10:08</sys_created_on><sys_customer_update>false</sys_customer_update><sys_id>e0730b3bdb34389006f27d78f49619b9</sys_id><sys_mod_count>0</sys_mod_count><sys_name>75b0756cdb251010ba15a35305961947</sys_name><sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package><sys_policy/><sys_replace_on_upgrade>false</sys_replace_on_upgrade><sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope><sys_update_name>sys_atf_test_suite_test_e0730b3bdb34389006f27d78f49619b9</sys_update_name><sys_updated_by>admin_R3EXUVB</sys_updated_by><sys_updated_on>2021-06-24 12:10:08</sys_updated_on><test display_value="DataSilos - change_request - opener, requester and sentinel">75b0756cdb251010ba15a35305961947</test><test_suite display_value="AZ DataSilos">644387f7db34389006f27d78f4961984</test_suite></sys_atf_test_suite_test></record_update>]]></payload>
+        <payload_hash>316001012</payload_hash>
+        <record_name>75b0756cdb251010ba15a35305961947</record_name>
+        <reverted_from/>
+        <source>6745edabdb23641006f27d78f496197b</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin_R3EXUVB</sys_created_by>
+        <sys_created_on>2021-06-24 12:10:08</sys_created_on>
+        <sys_id>2c730b3bdb34389006f27d78f49619ba</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>17a3ded70d50000001</sys_recorded_at>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-06-24 12:10:08</sys_updated_on>
+        <type>Test Suite Test</type>
+        <update_guid>24730b3b8834389025b8da9a63a9caba</update_guid>
+        <update_guid_history>24730b3b8834389025b8da9a63a9caba:316001012</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin_R3EXUVB</sys_created_by>
+        <sys_created_on>2021-06-24 12:11:02</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_db_object display_value="" name="sys_atf_test_suite_test">sys_atf_test_suite_test</sys_db_object>
+        <sys_id>31f537928b1c4fd29752418cb2b0aa69</sys_id>
+        <sys_metadata>e0730b3bdb34389006f27d78f49619b9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>75b0756cdb251010ba15a35305961947</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_scope_delete display_value="">7182033d95c04cd08eefff80c82f2410</sys_scope_delete>
+        <sys_update_name>sys_atf_test_suite_test_e0730b3bdb34389006f27d78f49619b9</sys_update_name>
+        <sys_update_version display_value="sys_atf_test_suite_test_e0730b3bdb34389006f27d78f49619b9">2c730b3bdb34389006f27d78f49619ba</sys_update_version>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-06-24 12:11:02</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

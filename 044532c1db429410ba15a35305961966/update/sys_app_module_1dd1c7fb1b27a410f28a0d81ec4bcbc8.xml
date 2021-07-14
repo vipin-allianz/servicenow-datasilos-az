@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="DataSilos">949c7f2fdbb78450ba15a353059619d6</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>DIRECT</link_type>
+        <map_page/>
+        <mobile_title>Options (AZ)</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order>8020</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query>system_properties_ui.do?sysparm_title=DataSilos%20(AZ)%20Options&amp;sysparm_category=datasilosaz</query>
+        <report/>
+        <roles/>
+        <survey/>
+        <survey_overwrite>false</survey_overwrite>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-23 08:45:21</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1dd1c7fb1b27a410f28a0d81ec4bcbc8</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Options (AZ)</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_app_module_1dd1c7fb1b27a410f28a0d81ec4bcbc8</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-07-08 13:49:26</sys_updated_on>
+        <timeline_page/>
+        <title>Options (AZ)</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>

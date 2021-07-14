@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_snc_datasilosaz_start.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+<div style="padding-left: 20px;">
+<span style="visibility: hidden;">_CUT_HERE_</span>
+	<g2:no_escape>$[
+		var docapi = new x_snc_devtools.DocumentationAPI('044532c1db429410ba15a35305961966');
+		docapi.RenderHeader();
+	]</g2:no_escape>	
+
+	<p>Welcome to DataSilosAZ!</p>
+	<p>DataSilosAZ contains Allianz specific extensions to DataSilos, a scoped app that enables data segregation based on groups.</p>
+	<p>DataSilosAZ has a dependency to the scoped apps DataSilos and DevTools. Please refer to the system requirements and installation chapters for details.</p>
+	
+	<h2>Features</h2>
+	<h3>Super Silos</h3>
+	<p>Groups are organized in silos which are DataSilos' structure to segregate data within an organization. However Allianz requires visibility even across and between silos. The super silos feature allows to define relationships between silos where users in one silo - the super silo - can look into data which has been made visible to users in a different silo.</p>
+	<p>A this point in time, these super silo relationships are defined in a JSON object provided by the script include "GetSuperSiloDefinitions". These super silo definitions are processed whenever a record is being changed or maintained - hence a change in the super silo definitions does not impact visibility immediately.</p>
+	<p>The super silo feature is currently implemented for the incident table only.</p>
+	<h3>Restricted Silos</h3>
+	<p>HR organizations required an even more restrictive way to protect specific records from being accessed by other parts of the organization. This requirement is fulfilled using so-called "restricted silos". Restricted silos have the "Restriced" value set to true. DataSilos' OOTB behaviour is to whitelist all groups that have ever been associated to a record or groups which are supervisors in a silo of such groups. In restricted silos this is different. Only supervisors and creator groups gain permanent access to a record. All other groups can only see the record when they are currently associated to the record - after the record has handed over to the next team, their access is removed.</p>
+	<p>The restricted silo feature is currently implemented for the incident table only.</p>
+	
+	<h3>ATF Test Suite</h3>
+	<p>DataSilosAZ includes ATF tests for most features contained in DataSilosAZ and hence extends the already extensive test coverage in DataSilos. However in order to make existing tests compatible to the Allianz instance and it's various costumizations a number of business rules modify records when being created as part of an ATF test - mainly to satisfy custom required fields or set Allianz specific roles to users.</p>
+	
+	<h3>Data Fixes</h3>
+	<p>DataSilos contains a maintenance mechanism which checks (and updates) all records in a table round-robin. The maintenance date and time is stored in a field called x_snc_datasilos_maintenance and the maintenance job will always pick the record that has not been maintained for the longest time (or which has never been maintained at all). For this mechanism to work properly, all records in a table must be able to update. Over time, data issues emerge and situations might occur in which the system denies a record to be updated due to various reasons. In order to work properly the RecordMaintenance function (in the corresponding script include) contains logic to correct the following data issues:</p>
+	<ol>
+		<li>If an incident's sys_class_name is "Incident" (note the capital "I") the sys_class_name is set to "incident".</li>
+	</ol>
+	
+	<h2>System requirements</h2>
+	<ul>
+		<li>Paris or Quebec</li>
+		<li><a href="https://github.com/saschawildgrube/servicenow-devtools/" target="_blank">DevTools 1.20.0</a></li>
+		<li><a href="https://github.com/saschawildgrube/servicenow-datasilos/" target="_blank">DataSilos 2.9.0</a></li>
+	</ul>
+	
+	<h2>Installation</h2>
+	<p>Please note: if the installation should be done on an instance where older versions of the scoped apps are already installed, but which are NOT YET linked to source control, the following steps need to be performed.</p>
+	<ol>
+		<li>Log in to an instance where the app to be installed is already linked to source control.</li>
+		<li>Create a new branch named "TEMP".</li>
+	</ol>
+	<p>When linking an existing app to source control, Studio will UPLOAD the current state on the instance TO the repo into the specified branch. When you want to update the scoped app on an instance, this is NOT WHAT YOU WANT. Instead, you want to update the instance with the current state in the repo. So when linking the already existing old app to source control, choose the "TEMP" branch. The "TEMP" branch will then be updated with the (old) state on the instance. In order to update the app, switch the branch to "MASTER" (or whatever branch contains the version to be installed). After that, the "TEMP" branch may be deleted.</p>
+	<p>To install DataSilos on an Allianz instance proceed with the following steps:</p> 
+	<ol>
+		<g2:no_escape>$[
+			docapi.RenderInstallationInstructionsImportFromSourceControl(
+				'DevTools',
+				'https://github.com/saschawildgrube/servicenow-devtools');
+		]</g2:no_escape>
+		<li>Allow cross scope access to table sys_script_include by running the following script in global scope:</li>
+<pre>
+	var grRecord = new GlideRecord('sys_db_object');
+if (grRecord.get('ce4d1000091112009d042025792178bb'))
+{
+   grRecord.access = 'public';
+   grRecord.read_access = 'true';
+   grRecord.create_access = 'true';
+   grRecord.update_access = 'true';
+   grRecord.delete_access = 'true';
+   grRecord.update();
+}
+</pre>
+		<g2:no_escape>$[
+			var docapi_devtools = new x_snc_devtools.DocumentationAPI('d689f6901bd38450a89720a8ec4bcbfd');
+			docapi_devtools.RenderInstallationInstructionsAppInstall();
+		]</g2:no_escape>
+		<li>Run all Tests from the "DevTools" test suite. All tests must pass to complete the installation. It may be necessary to flush the cash and wait for a few hours for some changes to take effect. DO NOT PROCEED WITH THE INSTALLATION UNTIL ALL TESTS PASS.</li>
+		<g2:no_escape>$[
+			docapi.RenderInstallationInstructionsImportFromSourceControl(
+				'DataSilos',
+				'https://github.com/saschawildgrube/servicenow-datasilos');
+		]</g2:no_escape>
+		<li>Install the scoped app "DataSilosAZ"</li>
+		<g2:no_escape>$[
+			docapi.RenderInstallationInstructionsAppInstall();
+		]</g2:no_escape>
+		<li>Run all Tests from the "DataSilosAZ" test suite.</li>	
+		<li>Execute the following background script in the x_snc_datasilos scope to trigger queries that may need database level optimization:</li>
+			<pre>Log(x_snc_devtools.RenderValue(GetOptimizationStatus()));</pre>
+	</ol>
+
+	<h2>Configuration options</h2>
+	<g2:no_escape>$[docapi.RenderProperties()]</g2:no_escape>
+
+	<h2>Script Includes</h2>
+	<p>
+	<g2:no_escape>$[docapi.RenderScriptIncludes()]</g2:no_escape>
+	</p>
+		
+	<h2>Release notes</h2>
+
+	<h3>2.0.7 - 2021-07-08</h3>
+	<ol>
+		<li>RestrictedSiloSetup() did not set the silo to restricted. This has been fixed.</li>
+		<li>Navigation module names are now consistent.</li>
+	</ol>
+	
+	<h3>2.0.6 - 2021-07-07</h3>
+	<ol>
+		<li>DevTools 1.20.0 is now required.</li>
+		<li>Installation instructions now consider steps required when linking an existing app to source control.</li>
+		<li>AppInstall() now deletes test data that may have been left from previous ATF test executions.</li>
+		<li>AppInstall() executes AppSanity() on DataSilos to make sure no properties are still set to is_private=true.</li>
+	</ol>
+	
+	<h3>2.0.5 - 2021-07-07</h3>
+	<ol>
+		<li>AppInstall() now deactivates the legacy "AZ Restricted Creator Groups incidents" business rule.</li>
+		<li>AppInstall() now also executes RestrictedSiloSetup() to set up the HR silo.</li>
+		<li>AppInstall() now deactivates no longer required business rules and scheduled jobs.</li>
+		<li>AppInstall() now prepares the incident_task related ACLs for future use.</li>
+		<li>Added steps to install DevTools into the installation instructions.</li>
+	</ol>
+
+	
+	<h3>2.0.4 - 2021-07-01</h3>
+	<ol>
+		<li>DataSilos 2.9.0 is now required.</li>
+		<li>DevTools 1.19.0 is now required.</li>
+		<li>The installation instructions no longer contain the manual creation of the maintenance job for the incident table in global scope.</li>
+	</ol>
+	
+	<h3>2.0.3 - 2021-06-29</h3>
+	<ol>
+		<li>AppInstall() now creates the maintenance job in the global scope.</li>
+		<li>Fixed a regression defect when processing super silos. As DataSilos 2 business rules all execute at order 10000, the super silo business rule had to be repositioned after 10000.</li>
+		<li>Added an ATF test to check the super silo feature.</li>
+		<li>Added the groups-to-datasilos related list to the DataSilos form view.</li>
+		<li>Added function AppSetDefaults()</li>
+		<li>DataSilos 2.8.2 is now required due to a fix in the GetOptimizationStatus() function.</li>
+	</ol>
+	
+	<h3>2.0.2 - 2021-06-24</h3>
+	<ol>
+		<li>DataSilos 2.8.1 is now required due to its new database view protection feature.</li>
+		<li>DevTools 1.18.0 is now required.</li>
+		<li>The RecordMaintenance() function now also performs data fixes.</li>
+		<li>The AppInstall() function now also configures the OOTB DataSilos and DevTools scheduled jobs.</li>
+		<li>The DataSilosAZ test suite now contains selected tests from DevTools and DataSilos.</li>
+	</ol>	
+	
+	<h3>2.0.1 - 2021-05-07</h3>
+	<ol>
+		<li>The u_active_coordination_group is now also considered when whitelisting inidents from restricted silos - thus providing access to such incidents as long as the group is assgned as the active coordination group.</li>
+	</ol>
+	
+	<h3>2.0.0 - 2021-05-06</h3>
+	<p>First baselined version based on DataSilos 2.7.0 including the super silo and restricted silos feature.</p>
+
+</div>
+</j:jelly>]]></html>
+        <name>start</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-21 14:18:33</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>fa0bf19f1bafe010f28a0d81ec4bcb46</sys_id>
+        <sys_mod_count>54</sys_mod_count>
+        <sys_name>start</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_ui_page_fa0bf19f1bafe010f28a0d81ec4bcb46</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-07-08 13:51:38</sys_updated_on>
+    </sys_ui_page>
+</record_update>

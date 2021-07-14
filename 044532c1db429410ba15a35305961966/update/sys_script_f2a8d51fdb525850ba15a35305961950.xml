@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>false</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>incident</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>AZ DataSilos - ATF - incident</name>
+        <order>50</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+	
+	if (gs.getProperty('x_snc_datasilosaz.atf') == 'false')
+	{
+		return;
+	}
+	
+	var Debug = x_snc_devtools.Debug;
+	var GetStringValue = x_snc_devtools.GetStringValue;
+	
+	if (GetStringValue(current.short_description).indexOf('_ATF_') == 0)
+	{
+		if (GetStringValue(current.caller_id) == '')
+		{
+			current.caller_id = 'f4a748d12d2382002f1015e99a8fd136'; // az_incident_support_group_user
+		}
+		if (GetStringValue(current.u_contact) == '')
+		{
+			current.u_contact = current.caller_id;
+		}
+		if (GetStringValue(current.contact_type) == '')
+		{
+			current.contact_type = 'email';
+		}
+		
+		if (GetStringValue(current.cmdb_ci) == '')
+		{
+			current.cmdb_ci = '1ac51ead40ebea009d04c03482166a6d'; // Test business service
+		}
+		
+		if (GetStringValue(current.u_symptom) == '')
+		{
+			current.u_symptom = 'd6747bbcb07932002f10272c5c585d7c'; // Error Message
+		}
+		
+		if (GetStringValue(current.assignment_group) == '')
+		{
+			if (GetStringValue(current.sys_created_by) == '_ATF_DATASILOS_ALPHA_MEMBER'
+				&& gs.getUserName() == '_ATF_DATASILOS_ALPHA_MEMBER')
+			{
+				var group = new GlideRecord('sys_user_group');
+				group.addQuery('name', '_ATF_DATASILOS_ALPHA_MEMBER');
+				group.query();
+				if(group.next())
+				{
+					current.assignment_group = group.sys_id;
+				}
+			}
+		}
+		
+		if (GetStringValue(current.u_creator_group) == '')
+		{
+			current.u_creator_group = current.assignment_group;
+		}
+		
+		if (GetStringValue(current.work_note) == '')
+		{
+			current.work_note = 'This is a test';
+		}
+	}
+	
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-08-03 12:21:26</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>f2a8d51fdb525850ba15a35305961950</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>AZ DataSilos - ATF - incident</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_f2a8d51fdb525850ba15a35305961950</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-04-23 10:32:45</sys_updated_on>
+        <template/>
+        <when>before</when>
+        <x_snc_datasilos_created>false</x_snc_datasilos_created>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=f2a8d51fdb525850ba15a35305961950"/>
+</record_update>

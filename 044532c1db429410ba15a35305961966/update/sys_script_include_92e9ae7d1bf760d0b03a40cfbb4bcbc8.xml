@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_snc_datasilosaz.DataSilosAZTestDataAPI</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>DataSilosAZTestDataAPI</name>
+        <script><![CDATA[var DataSilosAZTestDataAPI = Class.create();
+DataSilosAZTestDataAPI.prototype = Object.extendsObject(x_snc_datasilos.DataSilosTestDataAPI,
+{
+	
+	GetAllData:function()
+	{
+		var result = {};
+		
+		result.sys_user = this.GetAllUsers();
+		result.sys_user_group = this.GetAllGroups();
+		result.sys_user_role = this.GetAllRoles();
+		result.incident = this.GetAllIncidents();
+		result.incident_task = this.GetAllIncidentTasks();
+	/*	result.problem = this.GetAllProblems();
+		result.problem_task = this.GetAllProblemTasks();
+		result.change_request = this.GetAllChangeRequests();
+		result.change_task = this.GetAllChangeTasks();
+		result.sc_request = this.GetAllRequests();
+		result.sc_req_item = this.GetAllRequestedItems();
+		result.sc_task = this.GetAllRequestTasks();
+*/
+		result.x_snc_datasilos_datasilos = this.GetAllDataSilos();
+		
+		return result;
+	},
+	
+	
+	CreateRestrictedSilo:function(strName, aMemberGroupNames, aFulfillerGroupNames, aSupervisorGroupNames)
+	{
+		var vResult = this.CreateSilo(strName, aMemberGroupNames, aFulfillerGroupNames, aSupervisorGroupNames);
+		if (x_snc_devtools.IsValidSysId(vResult))
+		{
+			x_snc_devtools.RecordSetValue('x_snc_datasilos_datasilos',vResult,'x_snc_datasilosaz_restricted',true);
+		}
+		return vResult;
+	},
+	
+	
+	CreateIncidentAZ:function(strName, strOpenedByUserName, strCallerUserName, strContactUserName, strAssignmentGroupName, strCreatorGroupName)
+	{
+		var GetStringValue = x_snc_devtools.GetStringValue;
+
+		strName = GetStringValue(strName);
+		strOpenedByUserName = GetStringValue(strOpenedByUserName);
+		strCallerUserName = GetStringValue(strCallerUserName);
+		strContactUserName = GetStringValue(strContactUserName);
+		strAssignmentGroupName = GetStringValue(strAssignmentGroupName);
+		strCreatorGroupName = GetStringValue(strCreatorGroupName);
+
+		var strPrefix = this.GetPrefix(); 
+
+		var grIncidentToDelete = new GlideRecord('incident');
+		grIncidentToDelete.addQuery('short_description','=',strPrefix+strName);
+		grIncidentToDelete.query();
+		grIncidentToDelete.deleteMultiple();
+
+		var strOpenedByUserSysId = '';
+		if (strOpenedByUserName != '')
+		{
+			var grUser = new GlideRecord("sys_user");
+			if (grUser.get('user_name',strPrefix+strOpenedByUserName))
+			{
+				strOpenedByUserSysId = grUser.sys_id;
+			}
+		}				
+		
+		var strCallerUserSysId = '';
+		if (strCallerUserName != '')
+		{
+			var grUser = new GlideRecord("sys_user");
+			if (grUser.get('user_name',strPrefix+strCallerUserName))
+			{
+				strCallerUserSysId = grUser.sys_id;
+			}
+		}		
+		
+		var strContactUserSysId = '';
+		if (strContactUserName != '')
+		{
+			var grUser = new GlideRecord("sys_user");
+			if (grUser.get('user_name',strPrefix+strContactUserName))
+			{
+				strContactUserSysId = grUser.sys_id;
+			}
+		}	
+		
+		var strAssignmentGroupSysId = '';
+		if (strAssignmentGroupName != '')
+		{
+			var grGroup = new GlideRecord("sys_user_group");
+			if (grGroup.get('name',strPrefix+strAssignmentGroupName))
+			{
+				strAssignmentGroupSysId = grGroup.sys_id;
+			}
+		}
+		
+		var strCreatorGroupSysId = '';
+		if (strCreatorGroupName != '')
+		{
+			var grGroup = new GlideRecord("sys_user_group");
+			if (grGroup.get('name',strPrefix+strCreatorGroupName))
+			{
+				strCreatorGroupSysId = grGroup.sys_id;
+			}
+		}	
+		
+		var grIncident = new GlideRecord('incident');
+		grIncident.newRecord();
+		grIncident.short_description = strPrefix+strName;
+		grIncident.opened_by = strOpenedByUserSysId;
+		grIncident.caller_id = strCallerUserSysId;
+		grIncident.u_contact = strContactUserSysId;
+		grIncident.assignment_group = strAssignmentGroupSysId;
+		grIncident.u_creator_group = strCreatorGroupSysId;
+		var strIncidentSysId = grIncident.insert();
+		
+		if (strIncidentSysId == null)
+		{
+			return null;
+		}
+		return strIncidentSysId;
+	},	
+
+
+    type: 'DataSilosAZTestDataAPI'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin_R3EXUVB</sys_created_by>
+        <sys_created_on>2021-04-29 12:10:37</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>92e9ae7d1bf760d0b03a40cfbb4bcbc8</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>DataSilosAZTestDataAPI</sys_name>
+        <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
+        <sys_update_name>sys_script_include_92e9ae7d1bf760d0b03a40cfbb4bcbc8</sys_update_name>
+        <sys_updated_by>admin_R3EXUVB</sys_updated_by>
+        <sys_updated_on>2021-04-30 09:15:26</sys_updated_on>
+    </sys_script_include>
+</record_update>
