@@ -99,6 +99,11 @@ if (grRecord.get('ce4d1000091112009d042025792178bb'))
 		
 	<h2>Release notes</h2>
 
+	<h3>2.0.8 - 2021-07-14</h3>
+	<ol>
+		<li>RestrictedSiloSetup() created duplicate entries if a group has both the restricted type and is part of the restricted coordination support group system property. This has been fixed. Such groups will now be added to the HR silo as supervisors only.</li>
+	</ol>	
+	
 	<h3>2.0.7 - 2021-07-08</h3>
 	<ol>
 		<li>RestrictedSiloSetup() did not set the silo to restricted. This has been fixed.</li>
@@ -166,7 +171,7 @@ if (grRecord.get('ce4d1000091112009d042025792178bb'))
         <sys_created_on>2021-04-21 14:18:33</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>fa0bf19f1bafe010f28a0d81ec4bcb46</sys_id>
-        <sys_mod_count>54</sys_mod_count>
+        <sys_mod_count>56</sys_mod_count>
         <sys_name>start</sys_name>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy/>
@@ -174,6 +179,6 @@ if (grRecord.get('ce4d1000091112009d042025792178bb'))
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_ui_page_fa0bf19f1bafe010f28a0d81ec4bcb46</sys_update_name>
         <sys_updated_by>admin_R3EXUVB</sys_updated_by>
-        <sys_updated_on>2021-07-08 13:51:38</sys_updated_on>
+        <sys_updated_on>2021-07-14 14:26:16</sys_updated_on>
     </sys_ui_page>
 </record_update>

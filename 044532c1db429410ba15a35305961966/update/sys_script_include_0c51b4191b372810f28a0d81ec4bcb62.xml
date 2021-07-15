@@ -55,49 +55,6 @@
 	}
 	
 	
-	// Add the restricted groups as members
-	var grRestrictedGroups = new GlideRecord('sys_user_group');
-	var strRestrictedType = gs.getProperty('az.incident.group.restricted_type');
-	if (IsValidSysId(strRestrictedType) == false)
-	{
-		Log('ERROR: The system property "az.incident.group.restricted_type" does not contain a valid sys id.');
-		return;
-	}
-	grRestrictedGroups.addEncodedQuery('typeLIKE'+strRestrictedType); // restricted groups
-	grRestrictedGroups.query();
-	Log('Found '+grRestrictedGroups.getRowCount()+' restricted groups.');
-	
-	var nRestrictedGroupsAdded = 0;
-	while (grRestrictedGroups.next())
-	{
-		var grGroupsToSilos = new GlideRecord('x_snc_datasilos_m2m_groups_datasilos');
-		grGroupsToSilos.addQuery('datasilo','=',strSiloSysId);
-		grGroupsToSilos.addQuery('group','=',grRestrictedGroups.sys_id);
-		grGroupsToSilos.addQuery('type','=','member');
-		grGroupsToSilos.query();
-		if (grGroupsToSilos.next())
-		{
-			//Log('Group "'+grRestrictedGroups.name+'" is already a member of silo "'+strSiloName+'"');
-		}
-		else
-		{
-			grGroupsToSilos.initialize();
-			grGroupsToSilos.datasilo = strSiloSysId;
-			grGroupsToSilos.group = grRestrictedGroups.sys_id;
-			grGroupsToSilos.type = 'member';
-			var strGroupToSiloSysId = grGroupsToSilos.insert();
-			if (strGroupToSiloSysId == '')
-			{
-				Log('Failed to add group "'+grRestrictedGroups.name+'" to silo "'+strSiloName+'"');
-			}
-			else
-			{
-				nRestrictedGroupsAdded++;
-			}
-		}
-	}
-	Log('Added '+nRestrictedGroupsAdded+' groups to silo "'+strSiloName+'".');	
-	
 	// Add the restricted coordination groups as supervisors
 	var nRestrictedSupportGroupsAdded = 0;
 	var strRestrictedSupportGroups = gs.getProperty('az.incident.group.restricted_support');
@@ -139,14 +96,60 @@
 			}
 		}
 	}
-	Log('Added '+nRestrictedSupportGroupsAdded+' support groups to silo "'+strSiloName+'".');	
+	Log('Added '+nRestrictedSupportGroupsAdded+' restricted support groups to silo "'+strSiloName+'".');		
+	
+	
+	// Add the restricted groups as members
+	var grRestrictedGroups = new GlideRecord('sys_user_group');
+	var strRestrictedType = gs.getProperty('az.incident.group.restricted_type');
+	if (IsValidSysId(strRestrictedType) == false)
+	{
+		Log('ERROR: The system property "az.incident.group.restricted_type" does not contain a valid sys id.');
+		return;
+	}
+	grRestrictedGroups.addEncodedQuery('typeLIKE'+strRestrictedType); // restricted groups
+	grRestrictedGroups.query();
+	Log('Found '+grRestrictedGroups.getRowCount()+' restricted groups.');
+	
+	var nRestrictedGroupsAdded = 0;
+	while (grRestrictedGroups.next())
+	{
+		var grGroupsToSilos = new GlideRecord('x_snc_datasilos_m2m_groups_datasilos');
+		grGroupsToSilos.addQuery('datasilo','=',strSiloSysId);
+		grGroupsToSilos.addQuery('group','=',grRestrictedGroups.sys_id);
+		//grGroupsToSilos.addQuery('type','=','member');
+		grGroupsToSilos.query();
+		if (grGroupsToSilos.next())
+		{
+			//Log('Group "'+grRestrictedGroups.name+'" is already a member of silo "'+strSiloName+'"');
+		}
+		else
+		{
+			grGroupsToSilos.initialize();
+			grGroupsToSilos.datasilo = strSiloSysId;
+			grGroupsToSilos.group = grRestrictedGroups.sys_id;
+			grGroupsToSilos.type = 'member';
+			var strGroupToSiloSysId = grGroupsToSilos.insert();
+			if (strGroupToSiloSysId == '')
+			{
+				Log('Failed to add group "'+grRestrictedGroups.name+'" to silo "'+strSiloName+'"');
+			}
+			else
+			{
+				nRestrictedGroupsAdded++;
+			}
+		}
+	}
+	Log('Added '+nRestrictedGroupsAdded+' groups to silo "'+strSiloName+'".');	
+	
+
 }]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-04-27 14:10:40</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>0c51b4191b372810f28a0d81ec4bcb62</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>RestrictedSiloSetup</sys_name>
         <sys_package display_value="DataSilosAZ" source="x_snc_datasilosaz">044532c1db429410ba15a35305961966</sys_package>
         <sys_policy>read</sys_policy>
@@ -154,6 +157,6 @@
         <sys_scope display_value="DataSilosAZ">044532c1db429410ba15a35305961966</sys_scope>
         <sys_update_name>sys_script_include_0c51b4191b372810f28a0d81ec4bcb62</sys_update_name>
         <sys_updated_by>admin_R3EXUVB</sys_updated_by>
-        <sys_updated_on>2021-07-08 13:47:02</sys_updated_on>
+        <sys_updated_on>2021-07-14 14:22:02</sys_updated_on>
     </sys_script_include>
 </record_update>
